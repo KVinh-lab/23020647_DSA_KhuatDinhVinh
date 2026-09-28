@@ -22,3 +22,5 @@ int main() {
     cout << "Tong: " << tinhTong(a) << endl;
     return 0;
 }
+    Thời gian: O(N)
+    Bộ nhớ: O(N)
