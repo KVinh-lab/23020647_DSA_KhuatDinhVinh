@@ -4,7 +4,6 @@
 
 using namespace std;
 
-// Sap xep noi bot (Bubble Sort) hoac Selection Sort
 void sapXepTangDan(vector<int>& a) {
     int n = a.size();
     for (int i = 0; i < n - 1; i++) {
