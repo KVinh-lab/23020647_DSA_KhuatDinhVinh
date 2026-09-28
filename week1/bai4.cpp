@@ -2,7 +2,6 @@
 
 using namespace std;
 
-// Ham tim uoc chung lon nhat (UCLN)
 int ucln(int x, int y) {
     x = abs(x);
     y = abs(y);
@@ -22,7 +21,7 @@ void rutGonPhanSo(int &a, int &b) {
     int g = ucln(a, b);
     a /= g;
     b /= g;
-    if (b < 0) { // Đưa dấu âm lên tử số
+    if (b < 0) {
         a = -a;
         b = -b;
     }
