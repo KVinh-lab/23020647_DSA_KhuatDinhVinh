@@ -1,0 +1,155 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+
+    Node(int x) {
+        data = x;
+        next = nullptr;
+    }
+};
+
+class QueueLinkedList {
+private:
+    Node* frontNode;
+    Node* rearNode;
+
+public:
+    // Khoi tao Queue rong
+    QueueLinkedList() {
+        frontNode = nullptr;
+        rearNode = nullptr;
+    }
+
+    // Huy Queue, giai phong bo nho
+    ~QueueLinkedList() {
+        while (!isEmpty()) {
+            dequeue();
+        }
+    }
+
+    // Kiem tra Queue rong
+    bool isEmpty() {
+        return frontNode == nullptr;
+    }
+
+    // Them phan tu vao cuoi Queue
+    void enqueue(int x) {
+        Node* newNode = new Node(x);
+
+        if (isEmpty()) {
+            frontNode = rearNode = newNode;
+        } else {
+            rearNode->next = newNode;
+            rearNode = newNode;
+        }
+
+        cout << "Da them " << x << " vao Queue!\n";
+    }
+
+    // Xoa phan tu dau Queue
+    void dequeue() {
+        if (isEmpty()) {
+            cout << "Queue rong, khong the dequeue!\n";
+            return;
+        }
+
+        Node* temp = frontNode;
+        cout << "Da xoa phan tu: " << temp->data << endl;
+
+        frontNode = frontNode->next;
+
+        // Neu Queue khong con phan tu
+        if (frontNode == nullptr) {
+            rearNode = nullptr;
+        }
+
+        delete temp;
+    }
+
+    // Lay phan tu dau Queue
+    int front() {
+        if (isEmpty()) {
+            cout << "Queue rong!\n";
+            return -1;
+        }
+
+        return frontNode->data;
+    }
+
+    // Hien thi Queue
+    void display() {
+        if (isEmpty()) {
+            cout << "Queue rong!\n";
+            return;
+        }
+
+        Node* current = frontNode;
+
+        cout << "Queue (Front -> Rear): ";
+
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+
+        cout << endl;
+    }
+};
+
+int main() {
+    QueueLinkedList q;
+    int choice, x;
+
+    do {
+        cout << "\n===== QUEUE LINKED LIST =====\n";
+        cout << "1. Enqueue\n";
+        cout << "2. Dequeue\n";
+        cout << "3. Front\n";
+        cout << "4. Kiem tra rong\n";
+        cout << "5. Hien thi Queue\n";
+        cout << "0. Thoat\n";
+        cout << "Nhap lua chon: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Nhap so nguyen: ";
+                cin >> x;
+                q.enqueue(x);
+                break;
+
+            case 2:
+                q.dequeue();
+                break;
+
+            case 3:
+                if (!q.isEmpty())
+                    cout << "Phan tu Front: " << q.front() << endl;
+                else
+                    cout << "Queue rong!\n";
+                break;
+
+            case 4:
+                cout << (q.isEmpty() ? "Queue rong\n" : "Queue khong rong\n");
+                break;
+
+            case 5:
+                q.display();
+                break;
+
+            case 0:
+                cout << "Ket thuc chuong trinh!\n";
+                break;
+
+            default:
+                cout << "Lua chon khong hop le!\n";
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
