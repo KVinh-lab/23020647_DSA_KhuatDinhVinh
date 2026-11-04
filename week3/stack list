@@ -1,0 +1,112 @@
+
+#include <iostream>
+#include <list>
+using namespace std;
+
+class StackList {
+private:
+    list<int> st;
+
+public:
+    // Kiem tra Stack rong
+    bool isEmpty() {
+        return st.empty();
+    }
+
+    // Them phan tu vao Stack
+    void push(int x) {
+        st.push_back(x);
+        cout << "Da them " << x << " vao Stack!\n";
+    }
+
+    // Xoa phan tu tren dinh Stack
+    void pop() {
+        if (isEmpty()) {
+            cout << "Stack rong, khong the pop!\n";
+            return;
+        }
+
+        cout << "Da xoa phan tu: " << st.back() << endl;
+        st.pop_back();
+    }
+
+    // Lay phan tu tren dinh Stack
+    int top() {
+        if (isEmpty()) {
+            cout << "Stack rong!\n";
+            return -1;
+        }
+
+        return st.back();
+    }
+
+    // Hien thi Stack
+    void display() {
+        if (isEmpty()) {
+            cout << "Stack rong!\n";
+            return;
+        }
+
+        cout << "Stack (Top -> Bottom): ";
+
+        for (auto it = st.rbegin(); it != st.rend(); ++it) {
+            cout << *it << " ";
+        }
+
+        cout << endl;
+    }
+};
+
+int main() {
+    StackList s;
+    int choice, x;
+
+    do {
+        cout << "\n===== STACK STL LIST =====\n";
+        cout << "1. Push\n";
+        cout << "2. Pop\n";
+        cout << "3. Top\n";
+        cout << "4. Kiem tra rong\n";
+        cout << "5. Hien thi Stack\n";
+        cout << "0. Thoat\n";
+        cout << "Nhap lua chon: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Nhap so nguyen: ";
+                cin >> x;
+                s.push(x);
+                break;
+
+            case 2:
+                s.pop();
+                break;
+
+            case 3:
+                if (!s.isEmpty())
+                    cout << "Phan tu Top: " << s.top() << endl;
+                else
+                    cout << "Stack rong!\n";
+                break;
+
+            case 4:
+                cout << (s.isEmpty() ? "Stack rong\n" : "Stack khong rong\n");
+                break;
+
+            case 5:
+                s.display();
+                break;
+
+            case 0:
+                cout << "Ket thuc chuong trinh!\n";
+                break;
+
+            default:
+                cout << "Lua chon khong hop le!\n";
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
