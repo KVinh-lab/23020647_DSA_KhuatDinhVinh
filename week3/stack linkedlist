@@ -1,1 +1,141 @@
 
+#include <iostream>
+using namespace std;
+
+// Node cua Linked List
+struct Node {
+    int data;
+    Node* next;
+
+    Node(int x) {
+        data = x;
+        next = nullptr;
+    }
+};
+
+class StackLinkedList {
+private:
+    Node* topNode;
+
+public:
+    // Khoi tao Stack rong
+    StackLinkedList() {
+        topNode = nullptr;
+    }
+
+    // Huy Stack, giai phong bo nho
+    ~StackLinkedList() {
+        while (!isEmpty()) {
+            pop();
+        }
+    }
+
+    // Kiem tra Stack rong
+    bool isEmpty() {
+        return topNode == nullptr;
+    }
+
+    // Them phan tu vao Stack
+    void push(int x) {
+        Node* newNode = new Node(x);
+        newNode->next = topNode;
+        topNode = newNode;
+        cout << "Da them " << x << " vao Stack!\n";
+    }
+
+    // Xoa phan tu tren dinh Stack
+    void pop() {
+        if (isEmpty()) {
+            cout << "Stack rong, khong the pop!\n";
+            return;
+        }
+
+        Node* temp = topNode;
+        cout << "Da xoa phan tu: " << temp->data << endl;
+
+        topNode = topNode->next;
+        delete temp;
+    }
+
+    // Lay gia tri tren dinh Stack
+    int top() {
+        if (isEmpty()) {
+            cout << "Stack rong!\n";
+            return -1;
+        }
+
+        return topNode->data;
+    }
+
+    // Hien thi Stack
+    void display() {
+        if (isEmpty()) {
+            cout << "Stack rong!\n";
+            return;
+        }
+
+        Node* current = topNode;
+
+        cout << "Stack (Top -> Bottom): ";
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    StackLinkedList s;
+    int choice, x;
+
+    do {
+        cout << "\n===== STACK LINKED LIST =====\n";
+        cout << "1. Push\n";
+        cout << "2. Pop\n";
+        cout << "3. Top\n";
+        cout << "4. Kiem tra rong\n";
+        cout << "5. Hien thi Stack\n";
+        cout << "0. Thoat\n";
+        cout << "Nhap lua chon: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Nhap so nguyen: ";
+                cin >> x;
+                s.push(x);
+                break;
+
+            case 2:
+                s.pop();
+                break;
+
+            case 3:
+                if (!s.isEmpty())
+                    cout << "Phan tu Top: " << s.top() << endl;
+                else
+                    cout << "Stack rong!\n";
+                break;
+
+            case 4:
+                cout << (s.isEmpty() ? "Stack rong\n" : "Stack khong rong\n");
+                break;
+
+            case 5:
+                s.display();
+                break;
+
+            case 0:
+                cout << "Ket thuc chuong trinh!\n";
+                break;
+
+            default:
+                cout << "Lua chon khong hop le!\n";
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
+
