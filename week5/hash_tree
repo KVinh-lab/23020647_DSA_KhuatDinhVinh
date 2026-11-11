@@ -1,0 +1,113 @@
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node {
+    int key;
+    int hashValue;
+    Node* left;
+    Node* right;
+
+    Node(int k) {
+        key = k;
+        hashValue = k % 100;
+        left = right = nullptr;
+    }
+};
+
+class HashTree {
+private:
+    Node* root;
+
+    Node* insert(Node* node, int key) {
+        if (node == nullptr)
+            return new Node(key);
+
+        if (key < node->key)
+            node->left = insert(node->left, key);
+        else if (key > node->key)
+            node->right = insert(node->right, key);
+
+        return node;
+    }
+
+    Node* search(Node* node, int key) {
+        if (node == nullptr || node->key == key)
+            return node;
+
+        if (key < node->key)
+            return search(node->left, key);
+
+        return search(node->right, key);
+    }
+
+    void inorder(Node* node) {
+        if (node == nullptr)
+            return;
+
+        inorder(node->left);
+        cout << "Key: " << node->key
+             << " | Hash: " << node->hashValue << endl;
+        inorder(node->right);
+    }
+
+    void destroy(Node* node) {
+        if (node == nullptr)
+            return;
+
+        destroy(node->left);
+        destroy(node->right);
+        delete node;
+    }
+
+public:
+    HashTree() {
+        root = nullptr;
+    }
+
+    ~HashTree() {
+        destroy(root);
+    }
+
+    void insert(int key) {
+        root = insert(root, key);
+    }
+
+    void search(int key) {
+        Node* result = search(root, key);
+
+        if (result != nullptr)
+            cout << "Tim thay: " << result->key
+                 << " | Hash: " << result->hashValue << endl;
+        else
+            cout << "Khong tim thay!" << endl;
+    }
+
+    void display() {
+        inorder(root);
+    }
+};
+
+int main() {
+    HashTree tree;
+
+    tree.insert(50);
+    tree.insert(30);
+    tree.insert(70);
+    tree.insert(20);
+    tree.insert(40);
+    tree.insert(60);
+    tree.insert(80);
+
+    cout << "Hash Tree (Inorder):" << endl;
+    tree.display();
+
+    cout << "\nTim kiem 40:" << endl;
+    tree.search(40);
+
+    cout << "\nTim kiem 90:" << endl;
+    tree.search(90);
+
+    return 0;
+}
