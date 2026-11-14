@@ -1,0 +1,123 @@
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+struct Node {
+    string name;
+    int value;
+    Node* next;
+};
+
+class SymbolTable {
+private:
+    Node* head;
+
+public:
+    SymbolTable() {
+        head = nullptr;
+    }
+
+    void insert(string name, int value) {
+        Node* temp = searchNode(name);
+
+        if (temp != nullptr) {
+            temp->value = value;
+            return;
+        }
+
+        Node* newNode = new Node;
+        newNode->name = name;
+        newNode->value = value;
+        newNode->next = head;
+        head = newNode;
+    }
+
+    Node* searchNode(string name) {
+        Node* current = head;
+
+        while (current != nullptr) {
+            if (current->name == name)
+                return current;
+
+            current = current->next;
+        }
+
+        return nullptr;
+    }
+
+    void search(string name) {
+        Node* temp = searchNode(name);
+
+        if (temp != nullptr)
+            cout << "Found: " << temp->name
+                 << " = " << temp->value << endl;
+        else
+            cout << "Not found!" << endl;
+    }
+
+    void remove(string name) {
+        Node* current = head;
+        Node* previous = nullptr;
+
+        while (current != nullptr) {
+            if (current->name == name) {
+                if (previous == nullptr)
+                    head = current->next;
+                else
+                    previous->next = current->next;
+
+                delete current;
+                cout << "Deleted successfully!" << endl;
+                return;
+            }
+
+            previous = current;
+            current = current->next;
+        }
+
+        cout << "Not found!" << endl;
+    }
+
+    void display() {
+        Node* current = head;
+
+        while (current != nullptr) {
+            cout << current->name << " = "
+                 << current->value << endl;
+            current = current->next;
+        }
+    }
+
+    ~SymbolTable() {
+        Node* current = head;
+
+        while (current != nullptr) {
+            Node* temp = current;
+            current = current->next;
+            delete temp;
+        }
+    }
+};
+
+int main() {
+    SymbolTable st;
+
+    st.insert("x", 10);
+    st.insert("y", 20);
+    st.insert("z", 30);
+
+    cout << "Symbol Table:" << endl;
+    st.display();
+
+    cout << "\nSearch:" << endl;
+    st.search("y");
+
+    cout << "\nDelete:" << endl;
+    st.remove("x");
+
+    cout << "\nAfter deletion:" << endl;
+    st.display();
+
+    return 0;
+}
