@@ -1,0 +1,97 @@
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+const int MAX = 100;
+
+struct Symbol {
+    string name;
+    int value;
+};
+
+class SymbolTable {
+private:
+    Symbol table[MAX];
+    int count;
+
+public:
+    SymbolTable() {
+        count = 0;
+    }
+
+    void insert(string name, int value) {
+        for (int i = 0; i < count; i++) {
+            if (table[i].name == name) {
+                table[i].value = value;
+                return;
+            }
+        }
+
+        if (count == MAX) {
+            cout << "Symbol Table is full!" << endl;
+            return;
+        }
+
+        table[count].name = name;
+        table[count].value = value;
+        count++;
+    }
+
+    void search(string name) {
+        for (int i = 0; i < count; i++) {
+            if (table[i].name == name) {
+                cout << "Found: " << table[i].name
+                     << " = " << table[i].value << endl;
+                return;
+            }
+        }
+
+        cout << "Not found!" << endl;
+    }
+
+    void remove(string name) {
+        for (int i = 0; i < count; i++) {
+            if (table[i].name == name) {
+                for (int j = i; j < count - 1; j++) {
+                    table[j] = table[j + 1];
+                }
+
+                count--;
+                cout << "Deleted successfully!" << endl;
+                return;
+            }
+        }
+
+        cout << "Not found!" << endl;
+    }
+
+    void display() {
+        for (int i = 0; i < count; i++) {
+            cout << table[i].name << " = "
+                 << table[i].value << endl;
+        }
+    }
+};
+
+int main() {
+    SymbolTable st;
+
+    st.insert("x", 10);
+    st.insert("y", 20);
+    st.insert("z", 30);
+
+    cout << "Symbol Table:" << endl;
+    st.display();
+
+    cout << "\nSearch:" << endl;
+    st.search("y");
+
+    cout << "\nDelete:" << endl;
+    st.remove("x");
+
+    cout << "\nAfter deletion:" << endl;
+    st.display();
+
+    return 0;
+}
